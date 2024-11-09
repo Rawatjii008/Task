@@ -1,15 +1,26 @@
-import ReactSwagger from "../api-doc/swagger";
-import fs from "fs";
-import path from "path";
+// Add "use client" to indicate this is a client-side component
+"use client";
+
+import { useEffect, useState } from "react";
+import SwaggerUI from "swagger-ui-react";
+import "swagger-ui-react/swagger-ui.css";
 
 export default function IndexPage() {
-  // Load the generated swagger.json file
-  const swaggerPath = path.resolve("swagger-output.json");
-  const spec = JSON.parse(fs.readFileSync(swaggerPath, "utf8"));
+  const [spec, setSpec] = useState(null);
+
+  useEffect(() => {
+    // Fetch the Swagger JSON file from the public folder
+    fetch("/swagger-output.json")
+      .then((response) => response.json())
+      .then((data) => setSpec(data))
+      .catch((error) => console.error("Error loading Swagger spec:", error));
+  }, []);
+
+  if (!spec) return <div>Loading...</div>;
 
   return (
     <section className="container">
-      <ReactSwagger spec={spec} />
+      <SwaggerUI spec={spec} />
     </section>
   );
 }
