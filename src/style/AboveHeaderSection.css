@@ -1,0 +1,14 @@
+.applyForDogLicenseAnimation {
+  animation: textBlink 0.8s linear infinite;
+}
+@keyframes textBlink {
+  33% {
+    color: red;
+  }
+  66% {
+    color: yellow;
+  }
+  100% {
+    color: rgb(10, 239, 10);
+  }
+}
